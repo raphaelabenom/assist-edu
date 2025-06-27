@@ -91,3 +91,168 @@ O EduAssist tem potencial para:
 6. Preparar demonstração para o hackathon
 
 O EduAssist representa uma solução prática, viável e de alto impacto que pode ser implementada rapidamente como MVP para demonstração em um hackathon, com potencial real de evolução para um produto completo que transforme positivamente o dia a dia dos educadores brasileiros.
+
+## 🚀 Como Rodar o Projeto
+
+### Pré-requisitos
+
+Antes de começar, certifique-se de ter instalado em sua máquina:
+
+- **Node.js** (versão 18 ou superior)
+- **npm** ou **yarn** (gerenciador de pacotes)
+- **Git** (para clonar o repositório)
+
+### Passo a Passo
+
+#### 1. Clone o Repositório
+
+```bash
+git clone https://github.com/raphaelabenom/assist-edu.git
+cd assist-edu/EssayEvaluator
+```
+
+#### 2. Instale as Dependências
+
+```bash
+npm install
+```
+
+#### 3. Configure as Variáveis de Ambiente
+
+Copie o arquivo de exemplo e configure suas variáveis:
+
+```bash
+cp .env.example .env
+```
+
+Edite o arquivo `.env` e configure as seguintes variáveis:
+
+```plaintext
+# OpenAI API Configuration (obrigatório para IA)
+OPENAI_API_KEY=sua-chave-openai-aqui
+
+# JWT Secret para autenticação
+JWT_SECRET=sua-chave-secreta-jwt-aqui
+
+# Configuração do banco de dados (opcional)
+DATABASE_URL=sua-url-do-banco-aqui
+
+# Configuração da aplicação
+NODE_ENV=development
+PORT=5000
+```
+
+**⚠️ Importante:** Para obter uma chave da API OpenAI:
+
+1. Acesse [platform.openai.com](https://platform.openai.com)
+2. Crie uma conta ou faça login
+3. Vá em "API Keys" e gere uma nova chave
+4. Cole a chave no arquivo `.env`
+
+#### 4. Execute o Projeto
+
+Para desenvolvimento (com hot reload):
+
+```bash
+npm run dev
+```
+
+Para produção:
+
+```bash
+npm run build
+npm start
+```
+
+#### 5. Acesse a Aplicação
+
+Abra seu navegador e acesse:
+
+```
+http://localhost:5000
+```
+
+### Scripts Disponíveis
+
+- `npm run dev` - Executa em modo desenvolvimento com hot reload
+- `npm run build` - Gera build de produção
+- `npm start` - Executa a versão de produção
+- `npm run check` - Verifica tipos TypeScript
+- `npm run db:push` - Atualiza schema do banco de dados
+
+### Estrutura do Projeto
+
+```
+EssayEvaluator/
+├── client/           # Frontend React + Vite
+│   ├── src/
+│   │   ├── components/   # Componentes React
+│   │   ├── pages/        # Páginas da aplicação
+│   │   └── hooks/        # Custom hooks
+├── server/           # Backend Express + TypeScript
+│   ├── ai/              # Sistema de IA para correção
+│   ├── routes.ts        # Rotas da API
+│   └── storage.ts       # Camada de dados
+└── shared/           # Schemas compartilhados
+```
+
+### Funcionalidades Disponíveis
+
+#### 🎓 Login de Demonstração
+
+Use as seguintes credenciais para testar:
+
+- **Professor:** `professor` / `123456`
+- **Administrador:** `admin` / `admin123`
+
+#### 📝 Recursos Principais
+
+1. **Geração de Materiais Didáticos** - Ainda não implementado
+
+   - Acesse "Materiais" no menu lateral
+   - Insira tema, nível e tipo de material
+   - A IA gera conteúdo personalizado
+
+2. **Correção de Redações**
+
+   - Acesse "Avaliação de Redações"
+   - Cole o texto da redação
+   - Receba correção automática com notas e feedback
+
+3. **Chat Educacional**
+
+   - Acesse "Chat" para tirar dúvidas pedagógicas
+   - Receba sugestões de atividades e materiais
+
+### Solução de Problemas
+
+#### Erro de API Key
+
+Se você receber erros relacionados à API OpenAI:
+
+1. Verifique se a chave está correta no arquivo `.env`
+2. Certifique-se de que tem créditos na conta OpenAI
+3. O sistema possui fallback para dados mock em caso de erro
+
+#### Problemas de Dependências
+
+```bash
+# Limpe cache e reinstale
+rm -rf node_modules package-lock.json
+npm install
+```
+
+#### Problemas de Porta
+
+Se a porta 5000 estiver ocupada, altere no arquivo `server/index.ts`:
+
+```typescript
+const port = 3000; // ou outra porta disponível
+```
+
+### 📞 Suporte
+
+Para dúvidas ou problemas:
+
+1. Verifique a seção de troubleshooting acima
+2. Consulte os logs no console do navegador (F12)

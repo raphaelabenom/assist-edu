@@ -3,7 +3,7 @@ import type { Express, Request, Response } from "express";
 import { createServer, type Server } from "http";
 import jwt from "jsonwebtoken";
 import { z } from "zod";
-import { correctEssay, generateEssay } from "./ai/agents.js";
+import { correctEssay, educationalChat, generateEssay } from "./ai/agents.js";
 import { storage } from "./storage";
 
 // Extend Express Request type to include user
@@ -376,19 +376,28 @@ export async function registerRoutes(app: Express): Promise<Server> {
           content,
         });
 
-        // Generate AI response (mock for now)
-        const aiResponse =
-          "Baseado nos documentos fornecidos, posso sugerir atividades que integram conceitos de ciências e matemática para o 9º ano. Gostaria que eu elaborasse um plano de aula interdisciplinar?";
+        // Generate AI response using educational chat agent
+        const aiResponseData = await educationalChat(content);
 
         const assistantMessage = await storage.createChatMessage({
           userId: getAuthenticatedUser(req).userId,
           role: "assistant",
-          content: aiResponse,
+          content: aiResponseData.content,
         });
 
         res.json([userMessage, assistantMessage]);
       } catch (error) {
-        res.status(500).json({ message: "Error sending message" });
+        console.error("Error in chat:", error);
+
+        // Fallback response
+        const fallbackMessage = await storage.createChatMessage({
+          userId: getAuthenticatedUser(req).userId,
+          role: "assistant",
+          content:
+            "Desculpe, estou com dificuldades técnicas no momento. Como Professora Ana, estou sempre aqui para ajudar com questões educacionais. Pode tentar reformular sua pergunta?",
+        });
+
+        res.json([fallbackMessage]);
       }
     }
   );
